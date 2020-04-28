@@ -5,11 +5,7 @@ const initialStore = {
 };
 
 export default createReducer( initialStore , {
-  ADD_CATEGORY : (state, payload) => {
-    const { title } = payload;
-    state.categories.push({
-      enable: true,
-      title
-    });
+  INIT_CATEGORIES : (state, {payload}) => {
+    state.categories = payload; 
   }
 });
