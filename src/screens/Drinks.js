@@ -27,7 +27,10 @@ class Drinks extends Component {
     
     this.props.navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Filters')}>
+        <TouchableOpacity 
+          onPress={() => this.props.navigation.navigate('Filters')}
+          style={{marginRight: 10}}
+          >
           <Image 
             source={require('../styles/images/filter_icon.png')} 
             style={{width: 32, height: 32 }}
