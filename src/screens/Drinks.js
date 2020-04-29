@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-//import { Container, Content, ListItem, CheckBox, Body, Button, Text, Form } from 'native-base';
-//import {Container} from 'native-base';
 import { Image, TouchableOpacity, FlatList, View} from 'react-native';
 import { connect } from "react-redux";
 import { initCategories, updateCategory } from '../store/actions';
@@ -10,7 +8,7 @@ class Drinks extends Component {
   constructor(props){
     super(props)
     this.state = {
-      fetched: false
+      fetched: true
     };
   };
 
@@ -32,7 +30,10 @@ class Drinks extends Component {
     this.props.navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity 
-          onPress={() => this.props.navigation.navigate('Filters')}
+          onPress={() => {
+            this.setState({ fetched: false });
+            this.props.navigation.navigate('Filters')
+          }}
           style={{marginRight: 10}}
           >
           <Image 
@@ -45,18 +46,6 @@ class Drinks extends Component {
 
   };
 
-  // async getCategory(id){
-  //   this.setState({ fetched: true })
-  //   try{
-  //     const title = this.props.categories[id].title;
-  //     const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${title}`);
-  //     const data = await res.json();
-  //     const drinks = data.drinks.map( el => { return { title: el.strDrink, image: el.strDrinkThumb }} );
-  //     this.props.updateCategory({id, drinks});
-  //     this.setState({ fetched: false });
-  //   }catch( err ){ console.warn( err ) };
-  // };
-
   getCategory(id){
     const title = this.props.categories[id].title;
     fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${title}`)
@@ -64,18 +53,23 @@ class Drinks extends Component {
       .then( data =>{ 
         const drinks = data.drinks.map( el => { return { title: el.strDrink, image: el.strDrinkThumb }} );
         this.props.updateCategory({id, drinks});
-      })
-    this.setState({ fetched: false });
+        this.setState({ fetched: false });
+      });
+  };
+
+  shouldComponentUpdate(nextProps) {
+    if( this.props.drinks !== nextProps.drinks ){
+      return true;
+    }
+    return false;
   };
 
   handleEndReached = () => {
-    console.log( 'end reached' )
     if( !this.state.fetched ){
       this.setState({ fetched: true });
       const { categories } = this.props;
       categories.some( (el, id) => {
         if( el.enable && !el.displayed ){
-          console.log( 'title '+el.title )
           this.getCategory(id);
           return true;
         };
@@ -83,20 +77,18 @@ class Drinks extends Component {
     };
   };
 
+  componentDidUpdate(prevProps) {
+    if(this.props.categories !== prevProps.categories){
+      const { fetched } = this.state;
+      if( this.props.drinks.length == 0 && !fetched ){
+        this.handleEndReached();
+      };
+    };
+  };
+
   render(){
     const { drinks } = this.props;
-    // const { categories } = this.props;
-    // const { fetched } = this.state;
-    // //if( !fetched ) {
-    //   categories.some( (el, id) => {
-    //     if( el.enable && !el.displayed ){
-    //       console.log(id)
-    //       this.getCategory(id);
-    //       return true;
-    //     };
-    //   });
-    // //};
-    
+    console.log( 'render' )
     return(
       <View>
         <FlatList
@@ -108,8 +100,8 @@ class Drinks extends Component {
               />
             )}
             keyExtractor={item => item.title}
-            //onEndReached={this.handleEndReached}
-            //onEndThreshold={0}
+            onEndReached={this.handleEndReached}
+            onEndThreshold={0}
           />
         </View>
       )

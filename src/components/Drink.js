@@ -1,6 +1,5 @@
 import React from 'react';
 import { Image, View, Text } from 'react-native';
-//import { Item, Text } from 'native-base';
 
 export default ({ title, image }) => {
   

@@ -14,11 +14,5 @@ export default createReducer( initialStore , {
     const { id, drinks } = payload;
     state.categories[id].displayed = true;
     state.drinks = state.drinks.concat(drinks);
-  },
-  ADD_DRINKS : (state, {payload}) => {
-    state.drinks = state.drinks.concat(payload);
-  },
-  CLEAR_DRINKS : (state) => {
-    state.drinks = []
   }
 });
