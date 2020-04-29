@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { Image, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Image } from 'react-native';
 import { Item, Text, Right } from 'native-base';
 
 export default Filter = ({ title, onChange, id, enable }) => {

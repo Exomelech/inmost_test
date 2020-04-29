@@ -40,8 +40,12 @@ class Filters extends Component {
   };
 
   applyFilters(){
-    this.props.initCategories( this.state.filters )
-  }
+    const { filters } = this.state;
+    for( let el of filters){
+      el.displayed = false;
+    };
+    this.props.initCategories( this.state.filters );
+  };
 
   render(){
 

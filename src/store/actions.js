@@ -11,3 +11,17 @@ export function updateCategory(payload){
     payload
   };
 };
+
+export function addDrinks(payload){
+  return {
+    type: 'ADD_DRINKS',
+    payload
+  };
+};
+
+export function clearDrinks(){
+  return {
+    type: 'CLEAR_DRINKS',
+    payload: false
+  };
+};
