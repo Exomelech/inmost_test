@@ -3,17 +3,32 @@ import { Image, View, Text } from 'react-native';
 
 export default ({ title, image }) => {
   
-  const width = image == 'noimage' ? 0 : 64;
+  let width = 64;
+  let height = 64;
+  let vheight = 80;
+
+  if( image == 'noimage' ){
+    width = 0;
+    height = 0;
+    vheight = 32;
+  };
 
   return (
     <View 
-      style={{height: 80, marginLeft: 10, marginRight: 10}}
-      >
-        <Image 
-          source={{uri: image}}
-          style={{ width , height: 64 }}
-        />
-        <Text>{title}</Text>
+      style={{
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: vheight, 
+        marginLeft: 10,
+        marginBottom: 5
+      }}
+    >
+      <Image 
+        source={{uri: image}}
+        style={{ width , height, marginRight: 5 }}
+      />
+      <Text>{title}</Text>
     </View>
   )
 

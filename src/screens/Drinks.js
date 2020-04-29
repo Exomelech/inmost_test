@@ -51,7 +51,11 @@ class Drinks extends Component {
     fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${title}`)
       .then(res => res.json())
       .then( data =>{ 
-        const drinks = data.drinks.map( el => { return { title: el.strDrink, image: el.strDrinkThumb }} );
+        const arr = [{
+          title,
+          image: 'noimage'
+        }];
+        const drinks = arr.concat(data.drinks.map( el => { return { title: el.strDrink, image: el.strDrinkThumb }} ));
         this.props.updateCategory({id, drinks});
         this.setState({ fetched: false });
       });
@@ -88,7 +92,6 @@ class Drinks extends Component {
 
   render(){
     const { drinks } = this.props;
-    console.log( 'render' )
     return(
       <View>
         <FlatList
